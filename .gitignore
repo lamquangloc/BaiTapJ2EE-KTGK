@@ -1,10 +1,21 @@
+# Documentation
 HELP.md
-target/
-.mvn/wrapper/maven-wrapper.jar
-!**/src/main/**/target/
-!**/src/test/**/target/
 
-### STS ###
+# Build artifacts
+target/
+build/
+*.jar
+*.war
+*.ear
+dist/
+
+# Maven
+.mvn/wrapper/maven-wrapper.jar
+mvnw
+mvnw.cmd
+pom.xml.bak
+
+# IDE - Eclipse
 .apt_generated
 .classpath
 .factorypath
@@ -13,23 +24,65 @@ target/
 .springBeans
 .sts4-cache
 
-### IntelliJ IDEA ###
+# IDE - IntelliJ IDEA
 .idea
 *.iws
 *.iml
 *.ipr
+*.iml.bak
 
-### NetBeans ###
+# IDE - NetBeans
 /nbproject/private/
 /nbbuild/
 /dist/
 /nbdist/
 /.nb-gradle/
 build/
-!**/src/main/**/build/
-!**/src/test/**/build/
 
-### VS Code ###
+# IDE - VS Code
 .vscode/
+*.code-workspace
 
+# OS Files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Environment & Configuration
+.env
+.env.local
+*.properties~
+application-dev.properties
+application-prod.properties
+
+# Database
+*.sqlite
+*.db
+*.h2.db
+
+# Logs
+*.log
+logs/
+
+# Uploaded files
+uploads/
+uploads/**
+
+# Python test files
+*.py
+__pycache__/
+.pytest_cache/
+
+# Temporary files
+*.tmp
+*.bak
+*.swp
+*~
+.DS_Store*
+
+# Default excluded patterns
 .fake
