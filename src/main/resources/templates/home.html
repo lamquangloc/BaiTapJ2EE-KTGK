@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Course Registration - Home</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+<header class="topbar">
+    <div class="brand">Course Registration</div>
+    <form class="search-form" th:action="@{/home}" method="get">
+        <input type="text" name="keyword" th:value="${keyword}" placeholder="Tim theo ten hoc phan...">
+        <button type="submit">Tim</button>
+    </form>
+    <nav class="actions">
+        <a th:href="@{/home}">Home</a>
+        <a th:href="@{/enroll/my-courses}" sec:authorize="hasRole('STUDENT')">My Courses</a>
+        <a th:href="@{/admin/courses}" sec:authorize="hasRole('ADMIN')">Admin</a>
+        <a th:href="@{/register}" sec:authorize="isAnonymous()">Dang ky</a>
+        <a th:href="@{/login}" sec:authorize="isAnonymous()">Dang nhap</a>
+        <form th:action="@{/logout}" method="post" sec:authorize="isAuthenticated()">
+            <button type="submit" class="link-btn">Dang xuat</button>
+        </form>
+    </nav>
+</header>
+
+<main class="container">
+    <div class="status success" th:if="${param.enrollSuccess}">Dang ky hoc phan thanh cong.</div>
+    <div class="status warning" th:if="${param.alreadyEnrolled}">Ban da dang ky hoc phan nay roi.</div>
+
+    <h1>Danh sach hoc phan</h1>
+
+    <section class="course-grid">
+        <article class="course-card" th:each="course : ${coursePage.content}">
+            <img th:src="${course.image != null and !#strings.isEmpty(course.image)} ? ${course.image} : 'https://via.placeholder.com/640x360?text=Course'" alt="course-image">
+            <div class="card-body">
+                <h2 th:text="${course.name}">Course Name</h2>
+                <p><strong>Tin chi:</strong> <span th:text="${course.credits}">3</span></p>
+                <p><strong>Giang vien:</strong> <span th:text="${course.lecturer}">Lecturer</span></p>
+                <p><strong>Danh muc:</strong> <span th:text="${course.category != null ? course.category.name : 'N/A'}">Category</span></p>
+
+                <div sec:authorize="hasRole('STUDENT')" class="card-footer">
+                    <span class="badge" th:if="${enrolledCourseIds != null and #sets.contains(enrolledCourseIds, course.id)}">Da dang ky</span>
+                    <form th:if="${enrolledCourseIds == null or !#sets.contains(enrolledCourseIds, course.id)}"
+                          th:action="@{/enroll/{id}(id=${course.id})}" method="post">
+                        <button type="submit">Enroll</button>
+                    </form>
+                </div>
+            </div>
+        </article>
+    </section>
+
+    <div class="empty" th:if="${coursePage.content.isEmpty()}">
+        Khong tim thay hoc phan phu hop.
+    </div>
+
+    <nav class="pagination" th:if="${coursePage.totalPages > 0}">
+        <a th:classappend="${coursePage.first} ? 'disabled'"
+           th:href="@{/home(page=${coursePage.number - 1}, keyword=${keyword})}">Prev</a>
+
+        <a th:each="i : ${#numbers.sequence(0, coursePage.totalPages - 1)}"
+           th:text="${i + 1}"
+           th:classappend="${i == coursePage.number} ? 'active'"
+           th:href="@{/home(page=${i}, keyword=${keyword})}">1</a>
+
+        <a th:classappend="${coursePage.last} ? 'disabled'"
+           th:href="@{/home(page=${coursePage.number + 1}, keyword=${keyword})}">Next</a>
+    </nav>
+</main>
+</body>
+</html>

@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title th:text="${isEdit} ? 'Update Course' : 'Create Course'">Course Form</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+<main class="container form-page">
+    <h1 th:text="${isEdit} ? 'Cap nhat hoc phan' : 'Tao hoc phan moi'">Course Form</h1>
+
+        <form th:action="${isEdit} ? @{/admin/courses/{id}(id=${courseId})} : @{/admin/courses}"
+            th:object="${course}" method="post" enctype="multipart/form-data" class="form-stack">
+
+        <label>Ten hoc phan
+            <input type="text" th:field="*{name}" required>
+            <small class="field-error" th:errors="*{name}"></small>
+        </label>
+
+        <label>Hinh anh tu may
+            <input type="file" name="imageFile" accept="image/*">
+        </label>
+        <img th:if="${isEdit and course.image != null and !#strings.isEmpty(course.image)}"
+             th:src="${course.image}" alt="current-image" style="max-width: 240px; border-radius: 8px;">
+
+        <label>So tin chi
+            <input type="number" min="1" th:field="*{credits}" required>
+            <small class="field-error" th:errors="*{credits}"></small>
+        </label>
+
+        <label>Giang vien
+            <input type="text" th:field="*{lecturer}" required>
+            <small class="field-error" th:errors="*{lecturer}"></small>
+        </label>
+
+        <label>Danh muc
+            <select th:field="*{categoryId}" required>
+                <option value="">-- Chon danh muc --</option>
+                <option th:each="category : ${categories}" th:value="${category.id}" th:text="${category.name}"></option>
+            </select>
+            <small class="field-error" th:errors="*{categoryId}"></small>
+        </label>
+
+        <div class="form-actions">
+            <button type="submit" th:text="${isEdit} ? 'Cap nhat' : 'Tao moi'">Submit</button>
+            <a th:href="@{/admin/courses}">Huy</a>
+        </div>
+    </form>
+</main>
+</body>
+</html>

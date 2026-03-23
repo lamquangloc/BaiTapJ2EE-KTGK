@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dang ky sinh vien</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body class="auth-body">
+<main class="auth-card">
+    <h1>Dang ky tai khoan sinh vien</h1>
+
+    <div class="status danger" th:if="${registerError}" th:text="${registerError}"></div>
+
+    <form th:action="@{/register}" th:object="${student}" method="post" class="form-stack">
+        <label>Username
+            <input type="text" th:field="*{username}" required>
+            <small class="field-error" th:errors="*{username}"></small>
+        </label>
+        <label>Password
+            <input type="password" th:field="*{password}" required>
+            <small class="field-error" th:errors="*{password}"></small>
+        </label>
+        <label>Email
+            <input type="email" th:field="*{email}" required>
+            <small class="field-error" th:errors="*{email}"></small>
+        </label>
+
+        <button type="submit">Dang ky</button>
+    </form>
+
+    <p>Da co tai khoan? <a th:href="@{/login}">Dang nhap</a></p>
+</main>
+</body>
+</html>

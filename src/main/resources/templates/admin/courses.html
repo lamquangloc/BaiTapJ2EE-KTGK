@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin - Course CRUD</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+<main class="container admin-panel">
+    <div class="admin-head">
+        <h1>Quan ly hoc phan</h1>
+        <div class="actions">
+            <a class="btn" th:href="@{/admin/courses/create}">Create Course</a>
+            <a th:href="@{/home}">Ve Home</a>
+        </div>
+    </div>
+
+    <div class="status success" th:if="${param.created}">Tao hoc phan thanh cong.</div>
+    <div class="status success" th:if="${param.updated}">Cap nhat hoc phan thanh cong.</div>
+    <div class="status success" th:if="${param.deleted}">Xoa hoc phan thanh cong.</div>
+
+    <div class="table-wrap">
+        <table>
+            <thead>
+            <tr>
+                <th>ID</th>
+                <th>Ten hoc phan</th>
+                <th>Tin chi</th>
+                <th>Giang vien</th>
+                <th>Danh muc</th>
+                <th>Action</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="course : ${courses}">
+                <td th:text="${course.id}">1</td>
+                <td th:text="${course.name}">Name</td>
+                <td th:text="${course.credits}">3</td>
+                <td th:text="${course.lecturer}">Lecturer</td>
+                <td th:text="${course.category != null ? course.category.name : 'N/A'}">Category</td>
+                <td class="row-actions">
+                    <a th:href="@{/admin/courses/{id}/edit(id=${course.id})}">Update</a>
+                    <form th:action="@{/admin/courses/{id}/delete(id=${course.id})}" method="post"
+                          onsubmit="return confirm('Ban chac chan muon xoa hoc phan nay?');">
+                        <button type="submit" class="danger-btn">Delete</button>
+                    </form>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</main>
+</body>
+</html>

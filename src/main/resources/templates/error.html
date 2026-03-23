@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Loi he thong</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body class="auth-body">
+<main class="auth-card">
+    <h1>Da xay ra loi</h1>
+    <p th:text="${errorMessage}">Co loi trong qua trinh xu ly.</p>
+    <p><a th:href="@{/home}">Quay ve Home</a></p>
+</main>
+</body>
+</html>
